@@ -1,0 +1,29 @@
+version: "3"
+
+
+services:
+  frontend:
+    image: node:12.2
+    container_name: frontend
+    volumes:
+      - ./frontend:/www/frontend
+    command: /bin/bash -c "cd /www/frontend && npm install && npm run start"
+    ports:
+      - 8800:3000
+  backend:
+    image: node:12.2
+    container_name: backend
+    volumes:
+      - ./backend:/www/backend
+    command: /bin/bash -c "cd /www/backend && npm i -g node-dev && npm install && npm run hot-start"
+    ports:
+      - 8900:3000
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    env_file:
+      ./.env
+    volumes:
+      - ./datadir:/var/lib/mysql
+    ports:
+      - 33090:3306
